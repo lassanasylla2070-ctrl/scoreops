@@ -1,45 +1,110 @@
-# Walkthrough - Football Statistics Platform
+# ⚽ FootballStats — Full-Stack Statistics Platform
 
-The Football Statistics Platform is now fully functional, featuring a professional dark theme, real-time data integration, and advanced analytical tools.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18-green.svg)](https://nodejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg)](https://tailwindcss.com/)
 
-## Core Features Implemented
+A professional, feature-rich football statistics platform providing real-time match data, comprehensive player analytics, and automated news aggregation. Built with a focus on high performance, modern design aesthetics, and seamless user experience.
 
-### 1. Dashboard & Live Scores
-- **Real-time Updates**: Live matches update every 60 seconds using custom polling hooks.
-- **Match Coverage**: Includes Premier League, La Liga, Serie A, Bundesliga, Ligue 1, and Champions League.
-- **Match Details**: Scorelines, HT scores, and event timelines (goals, cards).
+---
 
-### 2. Advanced Player Analysis
-- **Detailed Profiles**: Bio data, position badges, and career summaries.
-- **Visual Analytics**: Interactive Radar charts for attribute analysis and Bar charts for season performance using Recharts.
-- **Search & Filter**: Real-time search across thousands of players with position and league filtering.
+## 🌟 Key Features
 
-### 3. Comparison Tool (Premium Feature)
-- **Side-by-Side Comparison**: Search and compare any two players' profiles and statistics.
-- **Dynamic Metrics**: Highlights superior stats in green for quick visual comparison.
+### 🔴 Live Match Dashboard
+- **Real-Time Scores**: Automatic polling for live matches across major European leagues (PL, La Liga, Serie A, etc.).
+- **Match Timelines**: Detailed event logs including goals (scorers/assists), cards, and substitutions.
+- **League Filters**: Quickly filter matches by competition, date, or status.
 
-### 4. Automated Content Aggregation
-- **RSS News Feed**: Automated background fetching from BBC Sport, Sky Sports, and The Guardian.
-- **Database Seeding**: Robust background jobs sync league standings and team data from Football-Data.org.
+### 📊 Advanced Player & Team Analytics
+- **Attribute Visualization**: Interactive Radar charts for player skill analysis (Speed, Shooting, Passing, etc.).
+- **Performance Tracking**: Bar charts showing season-by-season goal and appearance trends.
+- **Squad Rosters**: Complete team lists with player positions, nationalities, and market insights.
 
-## Technical Stack
-- **Frontend**: React 18, Vite, Tailwind CSS, Lucide Icons, Recharts.
-- **Backend**: Node.js, Express, SQLite (Better-SQLite3), Node-Cron.
-- **APIs**: Football-Data.org (REST), RSS Feeds.
+### 🆚 Player Comparison Tool
+- **Side-by-Side Analytics**: Select any two players to compare their career stats and physical profiles.
+- **Dynamic Metrics**: Instant visual feedback highlighting superior statistics in green.
 
-## Visual Overview
+### 📰 News Aggregator
+- **Automated Sync**: Background cron jobs fetch the latest football news from BBC Sport, Sky Sports, and The Guardian.
+- **Featured Articles**: High-impact news layout with external link integration.
 
-````carousel
-![Dashboard Overview](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/.system_generated/click_feedback/click_feedback_1777730311649.png)
-<!-- slide -->
-![Player Comparison Tool](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/compare_players_png_1777730902385.png)
-<!-- slide -->
-![Player Analytics Charts](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/player_detail_png_1777730929812.png)
-<!-- slide -->
-![League Standings](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/.system_generated/click_feedback/click_feedback_1777730385242.png)
-````
+---
 
-## Verification Results
-- **API Performance**: Response times < 100ms for cached local SQLite data.
-- **Rate Limiting**: Backend successfully manages API rate limits (9 req/min) via queuing.
-- **Responsiveness**: Fully tested on desktop and simulated mobile viewports.
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React 18 (Vite)
+- Tailwind CSS (Premium Dark Theme)
+- Recharts (Data Visualization)
+- Lucide React (Icons)
+- Axios & React Router v6
+
+**Backend:**
+- Node.js & Express
+- SQLite (better-sqlite3) for high-performance local storage
+- Node-Cron for automated data synchronization
+- RSS-Parser for news aggregation
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- A [Football-Data.org](https://www.football-data.org/) API Key (Free tier supported)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/gnanesh-coder/Football-Statistics-Platform.git
+   cd Football-Statistics-Platform
+   ```
+
+2. **Backend Setup:**
+   ```bash
+   cd backend
+   npm install
+   ```
+   Create a `.env` file in the `backend/` directory:
+   ```env
+   PORT=3001
+   FOOTBALL_DATA_API_KEY=your_api_key_here
+   ```
+   Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+3. **Frontend Setup:**
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
+
+The app will be available at `http://localhost:5173`.
+
+---
+
+## 📸 Screenshots
+
+| Dashboard Overview | Player Comparison |
+| :--- | :--- |
+| ![Dashboard](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/.system_generated/click_feedback/click_feedback_1777730311649.png) | ![Comparison](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/compare_players_png_1777730902385.png) |
+
+| Player Analytics | League Standings |
+| :--- | :--- |
+| ![Analytics](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/player_detail_png_1777730929812.png) | ![Standings](file:///C:/Users/user/.gemini/antigravity/brain/05e60dcc-0b50-4ee4-90f0-9ba00ac493bc/.system_generated/click_feedback/click_feedback_1777730385242.png) |
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+---
+*Created with ❤️ by [Gnanesh](https://github.com/gnanesh-coder)*
