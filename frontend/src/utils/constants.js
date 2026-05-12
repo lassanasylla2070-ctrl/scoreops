@@ -36,6 +36,6 @@ export const MATCH_STATUS = {
   SUSPENDED: { label: 'SUS',       color: 'text-text-muted'  },
 };
 
-export const API_BASE = 'http://localhost:3001/api';
+export const API_BASE = 'http://10.1.32.159:3001/api';
 export const POLL_INTERVAL_LIVE = 30000;    // 30s
 export const POLL_INTERVAL_MATCHES = 60000; // 60s
