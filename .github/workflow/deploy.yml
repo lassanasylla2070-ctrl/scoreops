@@ -1,0 +1,25 @@
+name: Scoreops CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Build Docker images
+        run: docker compose build
+
+      - name: Run containers
+        run: docker compose up -d
+
+      - name: Check containers status
+        run: docker compose ps
