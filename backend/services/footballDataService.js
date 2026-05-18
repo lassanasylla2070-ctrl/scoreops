@@ -19,7 +19,7 @@ async function rateLimitedRequest(url, params = {}) {
     const response = await axios.get(`${FOOTBALL_API_BASE}${url}`, {
       headers: { 'X-Auth-Token': FOOTBALL_API_KEY },
       params,
-      timeout: 10000,
+      timeout: 30000,
     });
     return response.data;
   } catch (err) {
