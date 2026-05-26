@@ -64,6 +64,8 @@ function startLiveScoreUpdater() {
     }
   });
 
+  }, { recoverMissedExecutions: false });
+
   console.log('[CRON] Live score updater started');
 }
 
@@ -131,6 +133,8 @@ function startStandingsUpdater() {
     }
   });
 
+  }, { recoverMissedExecutions: false });
+
   console.log('[CRON] Standings updater started (every 6h)');
 }
 
@@ -148,6 +152,8 @@ function startNewsUpdater() {
       console.warn('[CRON] News update failed:', err.message);
     }
   });
+
+  }, { recoverMissedExecutions: false });
 
   console.log('[CRON] News updater started (every 1h)');
 }
