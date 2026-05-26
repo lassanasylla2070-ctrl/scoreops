@@ -1,4 +1,3 @@
-cat > ~/scoreops/Football-Statistics-Platform/backend/jobs/cronJobs.js << 'EOF'
 'use strict';
 
 const cron = require('node-cron');
@@ -92,7 +91,7 @@ function startStandingsUpdater() {
         txn(standingsData.standings || []);
         await seedMatchesForCompetition(db, comp, code);
         clearCache('/api/standings');
-        console.log(`[CRON] ✓ Standings refreshed for ${code}`);
+        console.log(`[CRON] Standings refreshed for ${code}`);
       } catch (err) {
         console.warn(`[CRON] Standings update failed for ${code}:`, err.message);
       }
@@ -122,4 +121,3 @@ function startAllJobs() {
 }
 
 module.exports = { startAllJobs, startLiveScoreUpdater, startStandingsUpdater, startNewsUpdater };
-EOF
