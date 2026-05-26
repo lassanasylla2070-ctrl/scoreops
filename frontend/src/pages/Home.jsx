@@ -30,7 +30,7 @@ export default function Home() {
             <span className="badge badge-green text-[11px] font-bold uppercase tracking-wider">Live</span>
           </div>
           <h1 className="text-4xl font-extrabold text-text-primary tracking-tight mb-2">
-            Football Stats
+            ScoreOps
           </h1>
           <p className="text-text-secondary text-lg max-w-xl">
             Live scores, league tables, player stats, and the latest football news — all in one place.
