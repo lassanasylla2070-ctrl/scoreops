@@ -37,7 +37,7 @@ export default function Sidebar() {
           </div>
           {!collapsed && (
             <span className="font-extrabold text-base text-text-primary truncate">
-              FootballStats
+              ScoreOps
             </span>
           )}
         </div>
