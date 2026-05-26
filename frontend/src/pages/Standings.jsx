@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useFetch } from '../hooks/usePolling';
 import { standingsApi } from '../services/api';
 import StandingsTable from '../components/ui/StandingsTable';
@@ -6,7 +7,14 @@ import { StandingsSkeleton } from '../components/ui/LoadingSkeleton';
 import { LEAGUE_LIST } from '../utils/constants';
 
 export default function Standings() {
-  const [activeLeague, setActiveLeague] = useState('PL');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeLeague, setActiveLeague] = useState(searchParams.get('league') || 'PL');
+
+  useEffect(() => {
+    const league = searchParams.get('league');
+    if (league) setActiveLeague(league);
+  }, [searchParams]);
+
   const { data, loading, error } = useFetch(() => standingsApi.getAll(), []);
 
   const standings = data?.standings || {};
