@@ -18,18 +18,6 @@ services:
       - backend
     restart: unless-stopped
 
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    container_name: scoreops-cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "8080:8080"
-    restart: unless-stopped
-
   prometheus:
     image: prom/prometheus:latest
     container_name: scoreops-prometheus
@@ -47,4 +35,9 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     restart: unless-stopped
-
+    node-exporter:
+      image: prom/node-exporter:latest
+      container_name: scoreops-node-exporter
+      ports:
+        - "9100:9100"
+      restart: unless-stopped
