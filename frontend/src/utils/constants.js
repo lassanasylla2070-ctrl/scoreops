@@ -36,7 +36,6 @@ export const MATCH_STATUS = {
   SUSPENDED: { label: 'SUS',       color: 'text-text-muted'  },
 };
 
-=======
 export const API_BASE = 'http://213.32.65.25:3001/api';
 >>>>>>> Stashed changes
 export const POLL_INTERVAL_LIVE = 30000;    // 30s
