@@ -37,6 +37,5 @@ export const MATCH_STATUS = {
 };
 
 export const API_BASE = 'http://213.32.65.25:3001/api';
->>>>>>> Stashed changes
 export const POLL_INTERVAL_LIVE = 30000;    // 30s
 export const POLL_INTERVAL_MATCHES = 60000; // 60s
