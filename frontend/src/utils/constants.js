@@ -6,6 +6,7 @@ export const LEAGUES = {
   SA:  { code: 'SA',  id: 2019, name: 'Serie A',          country: 'Italy',   flag: '🇮🇹', color: '#024694' },
   FL1: { code: 'FL1', id: 2015, name: 'Ligue 1',          country: 'France',  flag: '🇫🇷', color: '#091c3e' },
   CL:  { code: 'CL',  id: 2001, name: 'Champions League', country: 'Europe',  flag: '🇪🇺', color: '#1a237e' },
+  WC: { code: 'WC', id: 2000, name: 'FIFA World Cup', country: 'World', flag: '🌍', color: '#1a5276' },
 };
 
 export const LEAGUE_LIST = Object.values(LEAGUES);
@@ -36,6 +37,6 @@ export const MATCH_STATUS = {
   SUSPENDED: { label: 'SUS',       color: 'text-text-muted'  },
 };
 
-export const API_BASE = 'http://213.32.65.25:3001/api';
+export const API_BASE = 'https://scoreops.fr/api';
 export const POLL_INTERVAL_LIVE = 30000;    // 30s
 export const POLL_INTERVAL_MATCHES = 60000; // 60s
