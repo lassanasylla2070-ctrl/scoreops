@@ -13,7 +13,7 @@ services:
     build: ./frontend
     container_name: scoreops-frontend
     ports:
-      - "80:80"
+      - "8081:80"
     depends_on:
       - backend
     restart: unless-stopped

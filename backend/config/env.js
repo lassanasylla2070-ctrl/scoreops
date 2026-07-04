@@ -36,5 +36,6 @@ module.exports = {
     SA:  { id: 2019, name: 'Serie A',           country: 'Italy',    flag: '🇮🇹' },
     FL1: { id: 2015, name: 'Ligue 1',           country: 'France',   flag: '🇫🇷' },
     CL:  { id: 2001, name: 'Champions League',  country: 'Europe',   flag: '🇪🇺' },
+    WC: { id: 2000, name: 'FIFA World Cup', country: 'World', flag: '🌍' },
   },
 };
