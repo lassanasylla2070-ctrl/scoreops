@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scoreops-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scoreops-frontend
+  template:
+    metadata:
+      labels:
+        app: scoreops-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: scoreops-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scoreops-frontend-service
+spec:
+  selector:
+    app: scoreops-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
