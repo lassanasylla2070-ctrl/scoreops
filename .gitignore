@@ -5,3 +5,7 @@ node_modules/
 dist/
 .DS_Store
 *.log
+terraform/terraform.tfvars
+terraform/.terraform/
+terraform/*.tfstate*
+ansible/backend.env
