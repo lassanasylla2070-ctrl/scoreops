@@ -68,7 +68,27 @@
       shell: docker compose build
       args:
         chdir: /home/debian/scoreops
+    - name: Install Trivy
+      shell: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+      args:
+        creates: /usr/local/bin/trivy
 
+    - name: Scan backend image with Trivy
+      shell: trivy image --exit-code 1 --severity CRITICAL scoreops-backend:latest
+      register: trivy_backend
+      failed_when: false
+
+    - name: Scan frontend image with Trivy
+      shell: trivy image --exit-code 1 --severity CRITICAL scoreops-frontend:latest
+      register: trivy_frontend
+      failed_when: false
+
+    - name: Display Trivy results
+      debug:
+        msg:
+          - "Backend scan: {{ 'PASS' if trivy_backend.rc == 0 else 'CRITICAL vulnerabilities found' }}"
+          - "Frontend scan: {{ 'PASS' if trivy_frontend.rc == 0 else 'CRITICAL vulnerabilities found' }}"
     - name: Import images into K3s
       shell: |
         docker save scoreops-backend:latest | k3s ctr images import -
