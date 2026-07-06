@@ -1,0 +1,105 @@
+---
+- name: Deploy ScoreOps
+  hosts: scoreops
+  become: true
+  vars:
+    ansible_user: debian
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install dependencies
+      apt:
+        name:
+          - curl
+          - git
+          - ca-certificates
+          - gnupg
+        state: present
+
+    - name: Install Docker (script)
+      shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+
+    - name: Add debian user to docker group
+      user:
+        name: debian
+        groups: docker
+        append: yes
+
+    - name: Install K3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Wait for K3s to be ready
+      shell: kubectl get nodes
+      register: k3s_ready
+      retries: 10
+      delay: 5
+      until: k3s_ready.rc == 0
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Setup kubeconfig for debian user
+      shell: |
+        mkdir -p /home/debian/.kube
+        cp /etc/rancher/k3s/k3s.yaml /home/debian/.kube/config
+        chown -R debian:debian /home/debian/.kube
+
+    - name: Clone ScoreOps repo
+      git:
+        repo: https://github.com/lassanasylla2070-ctrl/scoreops.git
+        dest: /home/debian/scoreops
+        version: main
+      become_user: debian
+
+    - name: Copy .env file
+      copy:
+        src: ../backend.env
+        dest: /home/debian/scoreops/.env
+        owner: debian
+        mode: '0600'
+
+    - name: Build Docker images
+      shell: docker compose build
+      args:
+        chdir: /home/debian/scoreops
+
+    - name: Import images into K3s
+      shell: |
+        docker save scoreops-backend:latest | k3s ctr images import -
+        docker save scoreops-frontend:latest | k3s ctr images import -
+
+    - name: Create K8s secret from .env
+      shell: kubectl create secret generic scoreops-env --from-env-file=/home/debian/scoreops/.env --dry-run=client -o yaml | kubectl apply -f -
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply K8s manifests
+      shell: kubectl apply -f /home/debian/scoreops/k8s/
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Install cert-manager
+      shell: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.yaml
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Wait for cert-manager
+      shell: kubectl get pods -n cert-manager -o jsonpath='{.items[*].status.phase}' | grep -v Running
+      register: cm_ready
+      retries: 15
+      delay: 10
+      until: cm_ready.rc != 0
+      failed_when: false
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply ClusterIssuer
+      shell: kubectl apply -f /home/debian/scoreops/k8s/clusterissuer.yaml
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
