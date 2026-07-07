@@ -59,7 +59,7 @@
 
     - name: Copy .env file
       copy:
-        src: ../backend.env
+        src: backend.env
         dest: /home/debian/scoreops/.env
         owner: debian
         mode: '0600'
@@ -99,23 +99,18 @@
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
-    - name: Apply K8s manifests
-      shell: kubectl apply -f /home/debian/scoreops/k8s/
-      environment:
-        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-
     - name: Install cert-manager
       shell: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.yaml
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
     - name: Wait for cert-manager
-      shell: kubectl get pods -n cert-manager -o jsonpath='{.items[*].status.phase}' | grep -v Running
-      register: cm_ready
-      retries: 15
-      delay: 10
-      until: cm_ready.rc != 0
-      failed_when: false
+      shell: kubectl -n cert-manager wait --for=condition=Available deployment --all --timeout=120s
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply K8s manifests
+      shell: kubectl apply -f /home/debian/scoreops/k8s/
       environment:
         KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 
