@@ -9,3 +9,9 @@ terraform/terraform.tfvars
 terraform/.terraform/
 terraform/*.tfstate*
 ansible/backend.env
+kubectl
+minikube-linux-amd64
+LICENSE.txt
+kubectl
+minikube-linux-amd64
+LICENSE.txt
