@@ -34,6 +34,7 @@ jobs:
           username: debian
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            export KUBECONFIG=~/.kube/config
             cd ~/scoreops
             git pull origin main
             docker compose build
