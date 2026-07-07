@@ -1,55 +1,40 @@
-# ⚽ FootballStats — Full-Stack Statistics Platform
+# ScoreOps ⚽
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-18-green.svg)](https://nodejs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg)](https://tailwindcss.com/)
+Application de scores football en temps réel, déployée avec une pipeline DevOps complète.
 
-A professional, feature-rich football statistics platform providing real-time match data, comprehensive player analytics, and automated news aggregation. Built with a focus on high performance, modern design aesthetics, and seamless user experience.
+🔗 **https://scoreops.fr**
 
----
+## Stack technique
 
-## 🌟 Key Features
+- **Frontend** : React + Vite + Tailwind CSS (servi par Nginx)
+- **Backend** : Node.js + Express + SQLite
+- **Data source** : football-data.org (API gratuite)
 
-### 🔴 Live Match Dashboard
-- **Real-Time Scores**: Automatic polling for live matches across major European leagues (PL, La Liga, Serie A, etc.).
-- **Match Timelines**: Detailed event logs including goals (scorers/assists), cards, and substitutions.
-- **League Filters**: Quickly filter matches by competition, date, or status.
+## Infrastructure & DevOps
 
-### 📊 Advanced Player & Team Analytics
-- **Attribute Visualization**: Interactive Radar charts for player skill analysis (Speed, Shooting, Passing, etc.).
-- **Performance Tracking**: Bar charts showing season-by-season goal and appearance trends.
-- **Squad Rosters**: Complete team lists with player positions, nationalities, and market insights.
+- **Conteneurisation** : Docker (backend `node:20-slim`, frontend `nginx:alpine`)
+- **Orchestration** : Kubernetes (K3s) sur OVH Public Cloud
+- **IaC** : Terraform (provider OpenStack) + Ansible (playbook de configuration complète)
+- **CI/CD** : GitHub Actions (build, scan Trivy, deploy SSH)
+- **HTTPS** : cert-manager + Let's Encrypt (automatique)
+- **Ingress** : Traefik
+- **Sécurité** : Trivy (scan d'images), fail2ban, SSH key-only
 
-### 🆚 Player Comparison Tool
-- **Side-by-Side Analytics**: Select any two players to compare their career stats and physical profiles.
-- **Dynamic Metrics**: Instant visual feedback highlighting superior statistics in green.
+## Pipeline CI/CD
 
-### 📰 News Aggregator
-- **Automated Sync**: Background cron jobs fetch the latest football news from BBC Sport, Sky Sports, and The Guardian.
-- **Featured Articles**: High-impact news layout with external link integration.
+Chaque push sur `main` déclenche :
 
----
+1. **Build** des images Docker
+2. **Scan Trivy** (vulnérabilités HIGH/CRITICAL)
+3. **Deploy SSH** sur le serveur (pull, build, import K3s, rollout restart)
 
-## 🛠️ Tech Stack
+## Déploiement automatisé
 
-**Frontend:**
-- React 18 (Vite)
-- Tailwind CSS (Premium Dark Theme)
-- Recharts (Data Visualization)
-- Lucide React (Icons)
-- Axios & React Router v6
+```bash
+cd terraform
+terraform apply
+```
 
-**Backend:**
-- Node.js & Express
-- SQLite (better-sqlite3) for high-performance local storage
-- Node-Cron for automated data synchronization
-- RSS-Parser for news aggregation
+Une seule commande provisionne l'instance OVH et lance Ansible qui installe Docker, K3s, clone le repo, build les images, scanne avec Trivy, déploie les manifests K8s et configure le HTTPS.
 
----
-
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
----
-*Created with ❤️ by [Gnanesh](https://github.com/gnanesh-coder)*
+## Structure du projet
