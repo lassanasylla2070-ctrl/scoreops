@@ -38,3 +38,16 @@ terraform apply
 Une seule commande provisionne l'instance OVH et lance Ansible qui installe Docker, K3s, clone le repo, build les images, scanne avec Trivy, déploie les manifests K8s et configure le HTTPS.
 
 ## Structure du projet
+
+├── backend/           # API Node.js + Express
+├── frontend/          # React + Vite + Tailwind
+├── k8s/               # Manifests Kubernetes
+├── terraform/         # Infrastructure as Code
+├── ansible/           # Playbook de configuration
+├── monitoring/        # Prometheus + Grafana
+├── .github/workflows/ # Pipeline CI/CD
+└── docker-compose.yml
+
+## Auteur
+
+**Lassana Sylla** — Projet de formation DevOps
