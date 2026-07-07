@@ -5,21 +5,39 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build-and-scan:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create .env file
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+        uses: actions/checkout@v4
 
       - name: Build Docker images
         run: docker compose build
 
-      - name: Run containers
-        run: docker compose up -d
+      - name: Install Trivy
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
-      - name: Check containers status
-        run: docker compose ps
+      - name: Scan backend image
+        run: trivy image --exit-code 0 --severity HIGH,CRITICAL scoreops-backend:latest
+
+      - name: Scan frontend image
+        run: trivy image --exit-code 0 --severity HIGH,CRITICAL scoreops-frontend:latest
+
+  deploy:
+    needs: build-and-scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: scoreops.fr
+          username: debian
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/scoreops
+            git pull origin main
+            docker compose build
+            docker save scoreops-backend:latest | sudo k3s ctr images import -
+            docker save scoreops-frontend:latest | sudo k3s ctr images import -
+            kubectl rollout restart deployment scoreops-backend
+            kubectl rollout restart deployment scoreops-frontend
